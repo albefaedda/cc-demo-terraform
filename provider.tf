@@ -5,10 +5,9 @@ terraform {
   required_providers {
     confluent = {
       source  = "confluentinc/confluent"
-      version = "1.0.0"
+      version = "1.43.0"
     }
   }
-  experiments = [module_variable_optional_attrs]
 }
 
 provider "confluent" {}

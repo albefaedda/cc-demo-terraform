@@ -58,11 +58,11 @@ module "saccount" {
 }
 
 module "topic" {
-  for_each     = { for topic in local.topics : topic.name => topic }
+  count        = length(local.topics)
   source       = "../topic"
   environment  = var.environment
   cluster      = confluent_kafka_cluster.cluster.id
-  topic        = each.value
+  topic        = local.topics[count.index]
   admin_sa     = module.saccount_admins.service_accounts_credentials
   rbac_enabled = local.rbac_enabled
   depends_on = [

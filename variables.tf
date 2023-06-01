@@ -23,9 +23,11 @@ variable "clusters" {
       })))
     })))
     topics = optional(list(object({
-      name     = string
-      consumer = optional(string)
-      producer = optional(string)
+      name       = string
+      partitions = optional(string)
+      config     = optional(map(string))
+      consumer   = optional(string)
+      producer   = optional(string)
     })))
     acls = optional(list(object({
       resource_type   = string

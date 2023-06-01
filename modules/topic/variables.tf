@@ -12,9 +12,11 @@ variable "rbac_enabled" {
 
 variable "topic" {
   type = object({
-    name     = string
-    consumer = optional(string)
-    producer = optional(string)
+    name       = string
+    partitions = optional(number)
+    config     = optional(map(string))
+    consumer   = optional(string)
+    producer   = optional(string)
   })
 }
 

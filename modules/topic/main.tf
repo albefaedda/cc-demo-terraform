@@ -11,7 +11,10 @@ resource "confluent_kafka_topic" "topic" {
   kafka_cluster {
     id = data.confluent_kafka_cluster.kafka_cluster.id
   } 
-  topic_name    = var.topic.name
+  topic_name       = var.topic.name
+  partitions_count = var.topic.partitions
+  config           = var.topic.config
+
   rest_endpoint = data.confluent_kafka_cluster.kafka_cluster.rest_endpoint
   credentials {
     key    = var.admin_sa.id

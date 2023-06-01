@@ -12,7 +12,7 @@ variable "rbac_enabled" {
 
 variable "serv_account" {
   type = object({
-    name  = string
+    name = string
     role = optional(string) 
     groups = optional(list(object ({
       group = string
