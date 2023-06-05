@@ -46,3 +46,10 @@ variable "clusters" {
   )
 }
 
+variable "gcp_project" {
+  type = object({
+    name = string
+    region = string
+    auth_file = string
+  })
+}

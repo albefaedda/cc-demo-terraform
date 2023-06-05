@@ -251,7 +251,7 @@ connector = {
 * Initialize the Terraform environment:
 
 ```sh
-terraform init 
+terraform init --backend-config=[backend-gcp.config | backend-aws.config | backend-azure.config]
 ```
 
 * Validate 
