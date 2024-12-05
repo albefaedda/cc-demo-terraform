@@ -1,5 +1,8 @@
 variable "environment" {
-  type = string
+  type = object({
+    name = string
+    governance_package = string
+  })
 }
 
 variable "clusters" {

@@ -3,6 +3,7 @@
 terraform {
   # GCP - Google Cloud Storage
   backend "gcs" {
+    bucket = "afaedda-tf-state"
   }
 }
 

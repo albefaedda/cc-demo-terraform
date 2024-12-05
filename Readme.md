@@ -251,7 +251,11 @@ connector = {
 * Initialize the Terraform environment:
 
 ```sh
-terraform init --backend-config=[backend-gcp.config | backend-aws.config | backend-azure.config]
+gcloud auth application-default login
+```
+
+```sh
+terraform init -var-file=envs/<your-tf-config>.tfvars
 ```
 
 * Validate 

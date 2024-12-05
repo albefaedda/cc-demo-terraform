@@ -1,5 +1,5 @@
 output "environment" {
-  value = data.confluent_environment.environment.id
+  value = resource.confluent_environment.environment.id
 }
 
 output "cluster" {
@@ -37,4 +37,13 @@ output "service_accounts" {
       admin_sa = cluster.service_accounts
     }
   }
+}
+
+output "sr_cluster" {
+  value = module.schema-registry.sr_cluster
+}
+
+output "env_manager_service_account" {
+  sensitive = true
+  value     = module.schema-registry.env_manager_credentials
 }
