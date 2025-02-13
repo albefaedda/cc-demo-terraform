@@ -2,6 +2,15 @@ output "ccloud_cluster" {
   value = confluent_kafka_cluster.cluster
 }
 
+output "sr_cluster" {
+  value = module.schema-registry.sr_cluster
+}
+
+output "env_manager_service_account" {
+  sensitive = true
+  value     = module.schema-registry.env_manager_credentials
+}
+
 output "service_account_admin" {
   sensitive = true
   value     = module.saccount_admins.service_accounts_credentials

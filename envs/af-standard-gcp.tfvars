@@ -1,6 +1,6 @@
 environment =  {
   name = "test-ecommerce"
-  governance_package = "ESSENTIALS"
+  governance_package = "ADVANCED"   # ESSENTIALS / ADVANCED
 }
 
 clusters = [
@@ -8,7 +8,7 @@ clusters = [
     display_name = "demo-ecommerce"
     availability = "MULTI_ZONE"     # SINGLE_ZONE / MULTI_ZONE
     cloud        = "GCP"            # GCP / AWS / AZURE
-    region       = "europe-west2"
+    region       = "europe-west1"
     type         = "STANDARD"       # BASIC / STANDARD / DEDICATED
 
     serv_account_admin = {
@@ -27,22 +27,38 @@ clusters = [
       },
       {
         name = "connector-sa"
+        groups = [
+          {
+            group = "demo-schemahistory",
+            role  = "DeveloperRead"
+          }
+        ]
       }
     ]
     topics = [
       {
-        name       = "ecommerce.orders.avro",
+        name       = "demo.ecommerce.orders-dlq",
+        partitions = 1,
+        config     = {
+            "cleanup.policy" = "delete",
+            "retention.ms" = "2629746000"
+        },
+        producer = "orders-enrichment-sa"
+        consumer = "orders-enrichment-sa"
+      },
+      {
+        name       = "demo.ecommerce.orders",
         partitions = 4,
         config     = {
             "cleanup.policy" = "delete",
             "retention.ms" = "2629746000"
         },
-        producer = "connector-sa"
+        producer = "orders-enrichment-sa"
         consumer = "orders-enrichment-sa"
       }, 
       {
-        name       = "ecommerce.products.avro",
-        partitions = 2,
+        name       = "demo.ecommerce.products",
+        partitions = 4,
         config     = {
             "cleanup.policy" = "compact"
         },
@@ -50,7 +66,7 @@ clusters = [
         consumer = "orders-enrichment-sa"
       }, 
       {
-        name       = "ecommerce.customers.avro",
+        name       = "demo.ecommerce.customers",
         partitions = 2,
         config     = {
             "cleanup.policy" = "compact"
@@ -59,15 +75,80 @@ clusters = [
         consumer = "orders-enrichment-sa"
       },
       {
-        name       = "ecommerce.orders-enriched.avro",
+        name       = "demo.ecommerce.orders-enriched",
+        partitions = 4,
+        config     = {
+            "cleanup.policy" = "delete"
+        },
+        producer = "orders-enrichment-sa"
+        consumer = "orders-enrichment-sa"
+      },
+      {
+        name       = "demo.ecommerce.orders-total",
         partitions = 4,
         config     = {
             "cleanup.policy" = "compact"
         },
         producer = "orders-enrichment-sa"
         consumer = "connector-sa"
+      },
+#      {
+#        name       = "orders-enrichment-app-demo.ecommerce.orders-total-changelog",
+#        partitions = 4,
+#        config     = {
+#            "cleanup.policy" = "compact"
+#        },
+#        producer = "orders-enrichment-sa"
+#        consumer = "orders-enrichment-sa"
+#      },
+      {
+        name       = "orders-enrichment-app-demo.ecommerce.orders-total-repartition",
+        partitions = 4,
+        config     = {
+            "cleanup.policy" = "delete",
+            "retention.ms" = "-1"
+        },
+        producer = "orders-enrichment-sa"
+        consumer = "orders-enrichment-sa"
+      },
+      {
+        name       = "dbhistory.demo.ecommerce.schemas",
+        partitions = 1,
+        config     = {
+            "cleanup.policy" = "delete",
+            "retention.ms" = "-1"
+        },
+        producer   = "connector-sa"
+        consumer   = "connector-sa"
       }
     ] 
+
+    acls = [
+      {
+        resource_type   = "CLUSTER"
+        resource_name   = "kafka-cluster"
+        service_account = "connector-sa"
+        pattern_type    = "LITERAL"  
+        operation       = "DESCRIBE"   
+        permission      = "ALLOW"
+      },
+      {
+        resource_type   = "GROUP"
+        resource_name   = "demo-schemaregistry"
+        service_account = "connector-sa"
+        pattern_type    = "LITERAL"  
+        operation       = "READ"   
+        permission      = "ALLOW"
+      },
+      {
+        resource_type   = "TOPIC"
+        resource_name   = "orders-enrichment-app-"
+        service_account = "orders-enrichment-sa"
+        pattern_type    = "PREFIXED"  
+        operation       = "ALL"   
+        permission      = "ALLOW"
+      }
+    ]
   }
 ]
 

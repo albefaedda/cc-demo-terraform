@@ -1,0 +1,36 @@
+{
+  "connect.name": "demo.ecommerce.products.Value",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "default": null,
+      "name": "product_name",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "default": null,
+      "name": "product_cost",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "name": "__deleted",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ],
+  "name": "Product",
+  "namespace": "demo.ecommerce.products",
+  "type": "record"
+}

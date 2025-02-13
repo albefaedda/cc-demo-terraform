@@ -34,16 +34,27 @@ output "service_accounts" {
   sensitive = true
   value = {
     for k, cluster in module.cluster : k => {
-      admin_sa = cluster.service_accounts
+      sa = cluster.service_accounts
     }
   }
 }
 
 output "sr_cluster" {
-  value = module.schema-registry.sr_cluster
+#  value = module.cluster.sr_cluster
+  sensitive = true
+  value = {
+    for k, cluster in module.cluster : k => {
+      sr_cluster = cluster.sr_cluster
+    }
+  }
 }
 
 output "env_manager_service_account" {
   sensitive = true
-  value     = module.schema-registry.env_manager_credentials
+#  value     = module.cluster.env_manager_credentials
+  value = {
+    for k, cluster in module.cluster : k => {
+      env_manager_sa = cluster.env_manager_service_account
+    }
+  }
 }

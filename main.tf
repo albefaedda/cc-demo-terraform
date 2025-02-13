@@ -14,7 +14,7 @@ module "cluster" {
   cluster     = each.value
 }
 
-module "schema-registry" {
-  source      = "./modules/schema-registry"
-  environment = resource.confluent_environment.environment.id
-}
+# module "schema-registry" {
+#   source      = "./modules/schema-registry"
+#   environment = resource.confluent_environment.environment.id
+# }

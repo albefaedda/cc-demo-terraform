@@ -34,6 +34,14 @@ locals {
   acls         = var.cluster.acls != null ? var.cluster.acls : []
 }
 
+module "schema-registry" {
+  source      = "../schema-registry"
+  environment = var.environment
+  depends_on = [
+    confluent_kafka_cluster.cluster
+  ]
+}
+
 module "saccount_admins" {
   source       = "../saccount"
   environment  = var.environment
