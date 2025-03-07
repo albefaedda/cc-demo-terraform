@@ -58,7 +58,7 @@ clusters = [
       }, 
       {
         name       = "demo.ecommerce.products",
-        partitions = 4,
+        partitions = 2,
         config     = {
             "cleanup.policy" = "compact"
         },
