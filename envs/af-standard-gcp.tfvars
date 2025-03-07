@@ -152,8 +152,3 @@ clusters = [
   }
 ]
 
-gcp_project = {  
-  name          = "solutionsarchitect-01"
-  region        = "europe-west2"
-  auth_file = "../tf-gke-keyfile.json"
-}

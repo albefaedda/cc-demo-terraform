@@ -13,8 +13,3 @@ module "cluster" {
   environment = resource.confluent_environment.environment.id
   cluster     = each.value
 }
-
-# module "schema-registry" {
-#   source      = "./modules/schema-registry"
-#   environment = resource.confluent_environment.environment.id
-# }
